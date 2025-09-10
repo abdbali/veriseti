@@ -314,7 +314,7 @@ Basit `index.html` (fetch ile `/query` çağırır):
 
 ---
 
-## Geliştirme fikirleri (ilerisi)
+## Geliştirme fikirleri
 
 * Çok dilli destek (Türkçe embedding ve Türkçe LLM tercih edin).
 * Öğrenme modülü: öğrenci cevaplarına göre açıklayıcı geri bildirim sağlayan ek mantık.
@@ -323,7 +323,6 @@ Basit `index.html` (fetch ile `/query` çağırır):
 
 ---
 
-## Ek: Hazır kod parçaları ve ipuçları
 
 * `sentence-transformers` ile Türkçe destekli modeller de değerlendirilebilir: `paraphrase-multilingual-mpnet-base-v2`, `all-mpnet-base-v2` vs.
 * FAISS index'i disk tabanlı yapmak için `IndexIVFFlat` + `index.train(...)` adımları.
