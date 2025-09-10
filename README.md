@@ -31,7 +31,7 @@ rag-mevsimler-iklim/
 
 ## Gereksinimler
 
-`requirements.txt` içeriği (başlangıç):
+`requirements.txt` 
 
 ```text
 fastapi
@@ -53,7 +53,7 @@ openai    # eğer OpenAI kullanacaksanız (opsiyonel)
 
 1. Hugging Face dataset sayfasından (`abdbali/mevsimler_iklim_veriseti`) CSV'yi indirin veya HF `datasets` kütüphanesi ile yükleyin.
 
-Örnek (Python):
+
 
 ```python
 # notebooks/01_explore_dataset.ipynb veya scripts
