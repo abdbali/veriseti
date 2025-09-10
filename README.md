@@ -1,6 +1,6 @@
-RAG ile "Mevsimler ve İklim" 
+**RAG ile "Mevsimler ve İklim" 
 
-**Amaç:** Hugging Face dataset `abdbali/mevsimler_iklim_veriseti` kullanarak öğretmen/öğrenci odaklı bir RAG (Retrieval-Augmented Generation) uygulaması geliştirmek. Proje basit bir retriever (FAISS), embedding üretimi (sentence-transformers), ve bir generative LLM (örnek: OpenAI veya yerel LLM) ile çalışır.
+
 ---
 
 ## Proje yapısı
