@@ -1,4 +1,4 @@
-## RAG ile "Mevsimler ve İklim" 
+## Veri Setleri ile Fen Bilgisi müfredatına göre Mevsimler ve İklim konusu incelemesi 
 
 
 ---
