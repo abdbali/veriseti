@@ -1,5 +1,8 @@
 # Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
 
+![Adsız tasarım](https://github.com/user-attachments/assets/9ff627b1-0a16-4505-a79e-6934a1488e74)
+
+
 <img width="494" height="568" alt="image" src="https://github.com/user-attachments/assets/7f5976d1-6241-4d4e-a573-19f41cb04c71" />
 
 ##  Gereksinimler:
