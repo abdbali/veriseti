@@ -106,7 +106,8 @@ def get_answer(user_query: str):
 ```
 
 ---
-<img width="855" height="636" alt="image" src="https://github.com/user-attachments/assets/23bef829-14cf-4ef8-99f8-b7cef54e7cee" />
+<img width="870" height="718" alt="image" src="https://github.com/user-attachments/assets/52a3958e-a401-4955-9153-0231604cea66" />
+
 
 ---
 
