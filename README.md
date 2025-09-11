@@ -1,10 +1,10 @@
 Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
 
 ---
-```html
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Mevsimler ve İklim Veri Seti</title>
 </head>
 <body>
@@ -17,6 +17,7 @@ Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
     ></iframe>
 </body>
 </html>
+
 ```
 ---
 
