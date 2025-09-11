@@ -1,7 +1,12 @@
-# Mevsimler ve İklim Soru-Cevap Sistemi
+Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
 
-Bu proje, **Türkçe mevsimler ve iklim ile ilgili soru-cevap sistemi** oluşturmak için hazırlanmıştır. Küçük bir veri seti kullanarak, kullanıcı sorularına **TF-IDF, fuzzy matching ve overlap** yöntemleriyle cevap verir.
-
+---
+<iframe
+  src="https://huggingface.co/datasets/abdbali/mevsimler_iklim_veriseti/embed/viewer/default/train"
+  frameborder="0"
+  width="100%"
+  height="560px"
+></iframe>
 ---
 
 ##  Gereksinimler:
