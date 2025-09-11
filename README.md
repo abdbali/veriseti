@@ -1,7 +1,5 @@
 # Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
 
----
-
 ##  Gereksinimler:
 
 * Python 3.9+
