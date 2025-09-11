@@ -1,6 +1,7 @@
 Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
 
 ---
+```html
 <iframe
   src="https://huggingface.co/datasets/abdbali/mevsimler_iklim_veriseti/embed/viewer/default/train"
   frameborder="0"
