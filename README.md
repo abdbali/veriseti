@@ -2,12 +2,22 @@ Fen Bilimleri Mevsimler ve İklim Veri Seti İşleme
 
 ---
 ```html
-<iframe
-  src="https://huggingface.co/datasets/abdbali/mevsimler_iklim_veriseti/embed/viewer/default/train"
-  frameborder="0"
-  width="100%"
-  height="560px"
-></iframe>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mevsimler ve İklim Veri Seti</title>
+</head>
+<body>
+    <h1>Mevsimler ve İklim Veri Seti</h1>
+    <iframe
+      src="https://huggingface.co/datasets/abdbali/mevsimler_iklim_veriseti/embed/viewer/default/train"
+      frameborder="0"
+      width="100%"
+      height="560px"
+    ></iframe>
+</body>
+</html>
+```
 ---
 
 ##  Gereksinimler:
