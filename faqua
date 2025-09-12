@@ -1,0 +1,252 @@
+# Gerekli paketler
+!pip install -q rapidfuzz pandas
+
+# Kütüphaneler
+import pandas as pd
+from rapidfuzz import fuzz
+
+
+qa_chain = [
+  
+  {
+    "input": "Japon balıkları neden belirli bir sıcaklık ve pH aralığında yaşayabilir?",
+    "output": "Çünkü metabolizmaları bu aralıklarda sağlıklı çalışır."
+  },
+  {
+    "input": "Suyun sıcaklığı çok yükselirse balıklara ne olur?",
+    "output": "Sudaki oksijen azalır ve balıklar yüzeye çıkar."
+  },
+  {
+    "input": "pH değeri çok düşük olursa balıklara ne olur?",
+    "output": "Solungaçları zarar görür ve yaşamları tehlikeye girer."
+  },
+  {
+    "input": "Balıkların sağlıklı yaşaması için ideal pH aralığı nedir?",
+    "output": "6,5 ile 7,5 arasındadır."
+  },
+  {
+    "input": "Balıkların sağlıklı yaşaması için uygun sıcaklık aralığı nedir?",
+    "output": "Yaklaşık 18°C ile 25°C arasındadır."
+  },
+  {
+    "input": "Sudaki oksijen miktarı neden önemlidir?",
+    "output": "Çünkü balıklar solunum için oksijene ihtiyaç duyar."
+  },
+  {
+    "input": "Sudaki oksijen miktarı sıcaklığa bağlı olarak nasıl değişir?",
+    "output": "Sıcaklık arttıkça sudaki çözünmüş oksijen azalır."
+  },
+  {
+    "input": "Balıkların yaşam koşullarını düzenlerken hangi bilim dallarından faydalanırız?",
+    "output": "Fen, matematik, mühendislik ve teknoloji."
+  },
+  {
+    "input": "pH değeri nasıl ölçülebilir?",
+    "output": "Bir pH sensörü kullanarak ölçülebilir."
+  },
+  {
+    "input": "Sıcaklık nasıl ölçülebilir?",
+    "output": "Bir sıcaklık sensörü kullanarak ölçülebilir."
+  },
+  {
+    "input": "Oksijen miktarı dolaylı olarak nasıl kontrol altında tutulabilir?",
+    "output": "Sıcaklık ve pH değerlerini sabit tutarak."
+  },
+  {
+    "input": "Arduino nedir?",
+    "output": "Arduino, sensörlerden veri okuyabilen ve cihazları kontrol edebilen küçük bir bilgisayardır."
+  },
+  {
+    "input": "Arduino’ya bir sıcaklık sensörü bağlarsak ne yapabiliriz?",
+    "output": "Sudaki sıcaklığı ölçebiliriz."
+  },
+  {
+    "input": "Arduino’ya bir pH sensörü bağlarsak ne yapabiliriz?",
+    "output": "Sudaki pH değerini ölçebiliriz."
+  },
+  {
+    "input": "Arduino’nun giriş pinleri ne işe yarar?",
+    "output": "Sensörlerden veri okumak için kullanılır."
+  },
+  {
+    "input": "Arduino’nun çıkış pinleri ne işe yarar?",
+    "output": "Lamba, motor veya alarm gibi cihazları çalıştırmak için kullanılır."
+  },
+  {
+    "input": "Balıklar için kuracağımız sistemin amacı nedir?",
+    "output": "Sıcaklık ve pH değerlerini takip ederek güvenli ortam sağlamak."
+  },
+  {
+    "input": "Eğer sıcaklık 25°C’nin üzerine çıkarsa ne yapmalıyız?",
+    "output": "Arduino’ya bağlı alarmı veya fanı çalıştırmalıyız."
+  },
+  {
+    "input": "Eğer pH değeri 7,5’in üzerine çıkarsa ne yapmalıyız?",
+    "output": "Arduino’ya bağlı sireni çaldırmalıyız."
+  },
+  {
+    "input": "Bu tür kararlar almak için hangi kodlama yapısı kullanılır?",
+    "output": "Eğer (if) koşul yapısı kullanılır."
+  },
+  {
+    "input": "Arduino’da sensörden gelen veriler hangi komutla okunur?",
+    "output": "analogRead() komutuyla."
+  },
+  {
+    "input": "Arduino’da alarm için hangi çıkış kullanılabilir?",
+    "output": "Dijital pinlerden biri kullanılabilir."
+  },
+  {
+    "input": "Arduino’da bir pine bağlı alarmı açmak için hangi komut kullanılır?",
+    "output": "digitalWrite(pin, HIGH)."
+  },
+  {
+    "input": "Alarmı kapatmak için hangi komut kullanılır?",
+    "output": "digitalWrite(pin, LOW)."
+  },
+  {
+    "input": "pH sensöründen alınan değeri kalibre etmek neden önemlidir?",
+    "output": "Doğru ölçüm yapabilmek için önemlidir."
+  },
+  {
+    "input": "Bir sensörün kalibrasyonu nasıl yapılır?",
+    "output": "Bilinen değerlerle test edilip ayarlama yapılır."
+  },
+  {
+    "input": "Sistem test edilirken pH değeri nasıl değiştirilebilir?",
+    "output": "Suya kontrollü şekilde asit veya baz eklenerek."
+  },
+  {
+    "input": "Sistem testinde sıcaklık nasıl değiştirilebilir?",
+    "output": "Isıtıcı veya buz ile sıcaklık değiştirilebilir."
+  },
+  {
+    "input": "Alarm sistemi çalışmazsa ilk kontrol etmemiz gereken nedir?",
+    "output": "Bağlantıların doğru yapılıp yapılmadığını kontrol etmeliyiz."
+  },
+  {
+    "input": "Arduino kodunda hata olursa ne yapılmalıdır?",
+    "output": "Hata mesajına bakarak kod düzeltilmelidir."
+  },
+  {
+    "input": "Sensörden gelen verileri ekranda görmek için ne kullanılabilir?",
+    "output": "Arduino seri monitörü kullanılabilir."
+  },
+  {
+    "input": "Seri monitörde veri göstermek için hangi komut kullanılır?",
+    "output": "Serial.println()."
+  },
+  {
+    "input": "Sistem çalışırken sıcaklık 18°C’nin altına düşerse ne yapılabilir?",
+    "output": "Isıtıcıyı çalıştıracak bir röle kullanılabilir."
+  },
+  {
+    "input": "Bir röle modülü ne işe yarar?",
+    "output": "Yüksek güçlü cihazları Arduino ile açıp kapatmaya yarar."
+  },
+  {
+    "input": "STEM yaklaşımında mühendislik adımı hangi kısımda görülür?",
+    "output": "Sistemin tasarlanıp devreye dönüştürülmesinde."
+  },
+  {
+    "input": "STEM yaklaşımında fen bilgisi adımı hangi kısımda görülür?",
+    "output": "Balıkların biyolojik ihtiyaçlarının anlaşılmasında."
+  },
+  {
+    "input": "STEM yaklaşımında matematik adımı hangi kısımda görülür?",
+    "output": "pH formülleri ve alarm frekansının hesaplanmasında."
+  },
+  {
+    "input": "STEM yaklaşımında teknoloji adımı hangi kısımda görülür?",
+    "output": "Arduino, sensörler ve kodlamada."
+  },
+  {
+    "input": "pH değeri 6,5’in altına düştüğünde sistem ne yapmalıdır?",
+    "output": "Alarm çalarak uyarı vermelidir."
+  },
+  {
+    "input": "Bir öğrencinin bu sistemi yaparken öğrenebileceği beceriler nelerdir?",
+    "output": "Problem çözme, algoritma kurma ve kodlama becerileri."
+  },
+  {
+    "input": "Arduino’da kod yazarken neden yorum satırı eklenir?",
+    "output": "Kodun ne yaptığını açıklamak için."
+  },
+  {
+    "input": "Sensörlerden gelen veriler sürekli nasıl takip edilebilir?",
+    "output": "Loop() fonksiyonu içinde tekrar tekrar okunarak."
+  },
+  {
+    "input": "Alarm biplerinin sıklığı nasıl ayarlanabilir?",
+    "output": "Delay süreleri değiştirilerek."
+  },
+  {
+    "input": "Sistem geliştirildiğinde başka hangi sensörler eklenebilir?",
+    "output": "Oksijen sensörü ve amonyak sensörü."
+  },
+  {
+    "input": "Bu ek sensörler ne işe yarar?",
+    "output": "Balıkların yaşam ortamını daha güvenli hale getirir."
+  },
+  {
+    "input": "Deney yaparken güvenlik neden önemlidir?",
+    "output": "Elektrik ve su birlikte kullanıldığında dikkat edilmelidir."
+  },
+  {
+    "input": "Arduino projelerinde ekip çalışması neden faydalıdır?",
+    "output": "Farklı görevler paylaşılır ve proje daha kolay tamamlanır."
+  },
+  {
+    "input": "Sonuç olarak bu proje öğrencilere ne kazandırır?",
+    "output": "STEM yaklaşımını gerçek bir problem üzerinde uygulamayı öğretir."
+  },
+  {
+    "input": "Bir robotik sistem tasarlayarak sıcaklık, oksijen ve pH değerlerini otomatik kontrol etmek istiyorsunuz. Nasıl bir yöntem uygularsınız?",
+    "output": "Arduino ve robotik kodlama kullanarak sensörlerden veri toplanır. Bu verilere göre pompa, ısıtıcı ve alarm otomatik kontrol edilir. Daha fazla öğrenmek için Arduino ve robotik kodlamaya yönelebilirsin. İstersen örnek kodlar da hazırlanabilir."
+  }
+
+
+
+]
+
+# 25 adıma çıkarmak için zinciri tekrarla
+qa_chain_extended = (qa_chain * 7)[:25]  # 4 soruyu tekrar ederek 25 adım yap
+
+# Normalize fonksiyonu
+import re
+def normalize_text(s: str) -> str:
+    s = str(s).lower()
+    s = re.sub(r"[^a-z0-9ığüşöç\s]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+# Kullanıcının cevabını değerlendirme
+def evaluate_user_answer(user_answer, correct_answer):
+    user_norm = normalize_text(user_answer)
+    correct_norm = normalize_text(correct_answer)
+    score = fuzz.token_set_ratio(user_norm, correct_norm)
+    if score > 85:
+        return "Doğru!"
+    elif score > 60:
+        return "Biraz daha düşünmelisin."
+    else:
+        return "Farklı bir yaklaşım."
+
+# Soru-cevap zincirini başlat
+print("Akvaryum ve Japon balıkları AI. Çıkmak için 'q' yazın.\n")
+
+for idx, step in enumerate(qa_chain_extended, 1):
+    print(f"Soru {idx}:")
+    print(step["input"])
+    user_resp = input("Cevabınız: ")
+
+    if user_resp.strip().lower() in ('q', 'quit', 'exit'):
+        print("Çıkılıyor.")
+        break
+
+    eval_msg = evaluate_user_answer(user_resp, step["output"])
+    print(f"Değerlendirme: {eval_msg}")
+    print(f"Önerilen çözüm: {step['output']}")
+    print("-"*50)
+
+print("Tüm 25 adım tamamlandı. Japon balıkları artık daha sağlıklı bir ortamda!")
