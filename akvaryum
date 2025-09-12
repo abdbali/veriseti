@@ -1,0 +1,99 @@
+# 1️Gerekli paketleri yükleyin
+!pip install -q rapidfuzz gradio joblib scikit-learn pandas
+
+#  Veri setini indirin
+!wget -q -O japon_baliklari_soru_cevap.csv "https://huggingface.co/datasets/abdbali/fen/resolve/main/japon_baliklari_soru_cevap.csv"
+!ls -l japon_baliklari_soru_cevap.csv
+
+#  Veri yükleme ve kontrol
+import pandas as pd
+
+df = pd.read_csv('japon_baliklari_soru_cevap.csv')
+df.columns = [c.strip().lower() for c in df.columns]
+
+if 'input' not in df.columns or 'output' not in df.columns:
+    raise ValueError("Veri setinde 'input' ve 'output' sütunları bulunamadı.")
+
+df['input'] = df['input'].astype(str)
+df['output'] = df['output'].astype(str)
+
+# Normalize ve tokenizasyon fonksiyonu
+import re
+
+def normalize_text(s: str) -> str:
+    s = str(s).lower()
+    s = re.sub(r"[^a-z0-9ığüşöç\s]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+df['input_norm'] = df['input'].apply(normalize_text)
+
+#  TF-IDF matrisi hazırlama
+from sklearn.feature_extraction.text import TfidfVectorizer
+vectorizer = TfidfVectorizer(ngram_range=(1,2))
+X_tfidf = vectorizer.fit_transform(df['input_norm'].tolist())
+
+# Jaccard benzerliği fonksiyonu
+def jaccard_similarity(a: str, b: str):
+    set_a, set_b = set(a.split()), set(b.split())
+    if not set_a or not set_b:
+        return 0.0
+    return len(set_a & set_b) / len(set_a | set_b)
+
+# Soruya cevap fonksiyonu
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
+from rapidfuzz import process, fuzz
+
+def get_answer(user_query: str):
+    q_norm = normalize_text(user_query)
+
+    # 1) Tam eşleşme
+    mask = df['input_norm'] == q_norm
+    if mask.any():
+        idx = df[mask].index[0]
+        return df.at[idx, 'output'], {'method': 'exact', 'score': 1.0}
+
+    # 2) Kısmi içerme
+    for idx, row in df[['input_norm', 'output']].iterrows():
+        if row['input_norm'] in q_norm or q_norm in row['input_norm']:
+            return row['output'], {'method': 'containment', 'score': 0.9}
+
+    # 3) Jaccard benzerliği
+    sims = df['input_norm'].apply(lambda s: jaccard_similarity(s, q_norm))
+    best_idx = int(sims.idxmax())
+    if sims[best_idx] >= 0.3:
+        return df.at[best_idx, 'output'], {'method': 'jaccard', 'score': float(sims[best_idx])}
+
+    # 4) TF-IDF + cosine similarity
+    q_vec = vectorizer.transform([q_norm])
+    cosines = cosine_similarity(q_vec, X_tfidf).flatten()
+    best_idx = int(np.argmax(cosines))
+    if cosines[best_idx] >= 0.25:
+        return df.at[best_idx, 'output'], {'method': 'tfidf', 'score': float(cosines[best_idx])}
+
+    # 5) Fuzzy fallback
+    best = process.extractOne(q_norm, df['input_norm'].tolist(), scorer=fuzz.token_set_ratio)
+    if best and best[1] >= 65:
+        matched_norm = best[0]
+        idx = df['input_norm'].tolist().index(matched_norm)
+        return df.at[idx, 'output'], {'method': 'fuzzy', 'score': best[1]}
+
+    # 6) Öneriler
+    top_indices = np.argsort(-cosines)[:3]
+    suggestions = df.iloc[top_indices]['input'].tolist()
+    return ("Üzgünüm, bunu anlayamadım. Şunları deneyebilirsin:\n- " + "\n- ".join(suggestions),
+            {'method': 'no_match', 'suggestions': suggestions})
+
+#  Hızlı etkileşim döngüsü
+print("Soru-cevap döngüsü. Çıkmak için 'q' yazın.")
+while True:
+    q = input("Soru: ")
+    if q.strip().lower() in ('q', 'quit', 'exit'):
+        print("Çıkılıyor.")
+        break
+    ans, meta = get_answer(q)
+    print("\nCevap:")
+    print(ans)
+    print("\n(Eşleşme bilgisi):", meta)
+    print("-"*40)
